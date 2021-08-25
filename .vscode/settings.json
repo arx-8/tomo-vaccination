@@ -48,6 +48,7 @@
   "cSpell.words": [
     "dotenv",
     "jsonify",
+    "lxml",
     "pgrep",
     "pylint",
     "pyproject",

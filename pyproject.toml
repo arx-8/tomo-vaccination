@@ -8,12 +8,14 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.8"
 beautifulsoup4 = "^4.9.3"
 taskipy = "^1.8.1"
+requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.7"
 flake8 = "^3.9.2"
 mypy = "^0.910"
 pylint = "^2.10.2"
+types-requests = "^2.25.6"
 
 [tool.taskipy.tasks]
 # Run local
