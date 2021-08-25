@@ -8,11 +8,8 @@ from chalice.app import CloudWatchEvent, Rate
 app = Chalice(app_name="tomo-vaccination")
 
 
-WEBHOOK_URL = "https://hooks.slack.com/services/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"
-
-
 def post_to_slack(text: str):
-    requests.post(WEBHOOK_URL, data=json.dumps({
+    requests.post("https://hooks.slack.com/services/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", data=json.dumps({
         "text": text,
         "icon_emoji": ":robot_face:",
         "username": "tomo-vaccination-bot"
@@ -24,17 +21,21 @@ def fetch_is_available_to_apply() -> bool:
     res = requests.get(target_url)
     soup = BeautifulSoup(res.text, "html.parser")
 
-    # TODO targe が存在しなかった場合のエラー処理
-    # TODO targe 文言が変わった場合のエラー処理
-    # TODO 申込開始した時、そもそもこの要素がないのでは？の処理
-    text = soup.select_one("#frm > .c-box--save.note_box").get_text().strip()
+    maybe_tag = soup.select_one("#frm > .c-box--save.note_box")
+    if maybe_tag is None:
+        # 申込開始した時、そもそもこの要素がないのでは？の処理
+        return True
+
+    text = maybe_tag.get_text().strip()
 
     return not (text in "申込期間ではありません。")
 
 
-@app.schedule(Rate(1, unit=Rate.MINUTES))
+@app.schedule(Rate(5, unit=Rate.MINUTES))
 def check(event: CloudWatchEvent):
-    # TODO FIXME
     is_available = fetch_is_available_to_apply()
 
-    post_to_slack(str(is_available) + ":" + str(event.to_dict()))
+    if is_available:
+        post_to_slack("<!channel> 予約開始かもよ")
+    else:
+        post_to_slack("no")
