@@ -20,7 +20,7 @@ chalice = "^1.24.2"
 
 [tool.taskipy.tasks]
 # Run local
-start = "python src/main.py"
+start = "python app.py"
 # Run automatically test
 test = "python -m pytest src/ -v"
 # Output to requirements.txt

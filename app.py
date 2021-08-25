@@ -9,7 +9,7 @@ app = Chalice(app_name="tomo-vaccination")
 
 
 def post_to_slack(text: str):
-    requests.post("https://hooks.slack.com/services/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", data=json.dumps({
+    requests.post("https://hooks.slack.com/services/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", data=json.dumps({
         "text": text,
         "icon_emoji": ":robot_face:",
         "username": "tomo-vaccination-bot"
@@ -38,4 +38,4 @@ def check(event: CloudWatchEvent):
     if is_available:
         post_to_slack("<!channel> 予約開始かもよ")
     else:
-        post_to_slack("no")
+        post_to_slack("<!channel> まだだよ")
