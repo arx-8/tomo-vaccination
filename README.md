@@ -39,3 +39,8 @@ poetry remove --dev taskipy
 # poetry で install した libs を CLI 実行したい時に使う
 poetry shell
 ```
+
+### chalice deploy の IAM 権限
+
+以下の policy 作ったらできた
+https://github.com/aws/chalice/issues/59#issuecomment-785777473
