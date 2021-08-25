@@ -1,0 +1,60 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+
+  /**
+   * for Python development
+   */
+  "[python]": {
+    // フォーマッタと2重管理になってしまうが、誤検知されるよりはマシなためセット
+    "editor.tabSize": 4
+  },
+  "python.formatting.provider": "autopep8",
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.ignorePatterns": [".vscode/*.py", "**/.venv/**/*.py"],
+  "python.linting.mypyEnabled": true,
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "files.associations": {
+    "poetry.lock": "toml"
+  },
+
+  // pipenv の問題(windows で path が変わる)は解消済み？
+  "python.linting.pylintPath": ".venv/bin/pylint",
+  "python.pythonPath": ".venv/bin/python",
+
+  /**
+   * 主に検索のignore, exclude関係
+   */
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "files.watcherExclude": {
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+    "**/.venv": true
+  },
+  "search.exclude": {
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+    "**/.venv": true
+  },
+  "cSpell.words": [
+    "dotenv",
+    "jsonify",
+    "pgrep",
+    "pylint",
+    "pyproject",
+    "spreadsheetml",
+    "taskipy",
+    "uwsgi",
+    "virtualenvs",
+    "xlsx"
+  ]
+}

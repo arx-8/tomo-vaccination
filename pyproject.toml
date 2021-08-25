@@ -10,6 +10,10 @@ beautifulsoup4 = "^4.9.3"
 taskipy = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
+autopep8 = "^1.5.7"
+flake8 = "^3.9.2"
+mypy = "^0.910"
+pylint = "^2.10.2"
 
 [tool.taskipy.tasks]
 # Run local
