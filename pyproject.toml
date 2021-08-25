@@ -16,12 +16,15 @@ flake8 = "^3.9.2"
 mypy = "^0.910"
 pylint = "^2.10.2"
 types-requests = "^2.25.6"
+chalice = "^1.24.2"
 
 [tool.taskipy.tasks]
 # Run local
 start = "python src/main.py"
 # Run automatically test
 test = "python -m pytest src/ -v"
+# Output to requirements.txt
+requirements = "poetry export -f requirements.txt --output requirements.txt"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

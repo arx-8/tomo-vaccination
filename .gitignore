@@ -136,3 +136,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# by chalice
+.chalice/deployments/
+.chalice/venv/

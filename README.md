@@ -35,4 +35,7 @@ poetry add "Flask==1.1.1"
 
 # Uninstall library from dev-dependencies (注意: npm とは違い、`pyproject.toml` から記述削除しただけでは Uninstall されない)
 poetry remove --dev taskipy
+
+# poetry で install した libs を CLI 実行したい時に使う
+poetry shell
 ```
