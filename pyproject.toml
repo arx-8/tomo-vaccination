@@ -25,6 +25,10 @@ start = "python src/main.py"
 test = "python -m pytest src/ -v"
 # Output to requirements.txt
 requirements = "poetry export -f requirements.txt --output requirements.txt"
+# Deploy
+deploy = "chalice deploy --profile tomo-vaccination"
+# Cleanup
+undeploy = "chalice delete --profile tomo-vaccination"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

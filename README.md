@@ -40,6 +40,10 @@ poetry remove --dev taskipy
 poetry shell
 ```
 
+### chalice docs
+
+https://aws.github.io/chalice/topics/events.html#scheduled-events
+
 ### chalice deploy の IAM 権限
 
 以下の policy 作ったらできた
