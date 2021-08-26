@@ -1,0 +1,84 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:PassRole",
+                "iam:ListRoles",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:DeleteRole",
+                "iam:CreateRole",
+                "iam:CreateServiceLinkedRole",
+                "iam:UpdateRoleDescription",
+                "iam:DeleteServiceLinkedRole",
+                "iam:GetServiceLinkedRoleDeletionStatus",
+                "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:ListRolePolicies",
+                "lambda:*",
+                "ec2:*",
+                "logs:*",
+                "events:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:POST",
+                "apigateway:GET"
+            ],
+            "Resource": [
+                "arn:aws:apigateway:ap-northeast-1::/restapis",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*",
+                "arn:aws:apigateway:ap-northeast-1::/domainnames",
+                "arn:aws:apigateway:ap-northeast-1::/domainnames/*",
+                "arn:aws:apigateway:ap-northeast-1::/domainnames/*/*",
+                "arn:aws:apigateway:ap-northeast-1::/tags/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/resources",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/resources/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "apigateway:DELETE",
+            "Resource": [
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/resources/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "apigateway:POST",
+            "Resource": [
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/deployments",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/resources/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "apigateway:PUT",
+            "Resource": [
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/GET",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/GET/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/POST",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/POST/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/PUT",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*/methods/PUT/*",
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "apigateway:PATCH",
+            "Resource": [
+                "arn:aws:apigateway:ap-northeast-1::/restapis/*",
+                "arn:aws:apigateway:ap-northeast-1::/domainnames/*"
+            ]
+        }
+    ]
+}
