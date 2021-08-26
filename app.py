@@ -1,10 +1,18 @@
 import json
+import os
 
 import requests
 from bs4 import BeautifulSoup
 from chalice import Chalice
 from chalice.app import CloudWatchEvent, Rate
 
+# constants
+LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
+LINE_ROOM_ID = os.environ["LINE_ROOM_ID"]
+SLACK_INCOMING_WEBHOOK_URL = os.environ["SLACK_INCOMING_WEBHOOK_URL"]
+TARGET_URL = os.environ["TARGET_URL"]
+
+# init chalice
 app = Chalice(app_name="tomo-vaccination")
 
 
@@ -12,26 +20,49 @@ def log(text: str) -> None:
     """
     log for CloudWatch
     """
+    # TODO replace Chalice.log.error()
     print("***" + text)
 
 
-def post_to_slack(text: str):
-    res = requests.post("https://hooks.slack.com/services/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", data=json.dumps({
+def post_to_slack(text: str) -> None:
+    res = requests.post(SLACK_INCOMING_WEBHOOK_URL, data=json.dumps({
         "text": text,
         "icon_emoji": ":robot_face:",
         "username": "tomo-vaccination-bot"
     }))
 
     if not res.status_code == 200:
-        log("WebHook unexpected error: " + res.text)
+        log("post_to_slack unexpected error: " + res.text)
+
+
+def post_to_line(text: str) -> None:
+    res = requests.post(
+        "https://api.line.me/v2/bot/message/push",
+        data=json.dumps({
+            "to": LINE_ROOM_ID,
+            "messages": [
+                {
+                    "type": "text",
+                    "text": text
+                }
+            ]
+        }),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {LINE_CHANNEL_ACCESS_TOKEN}",
+        }
+    )
+
+    if not res.status_code == 200:
+        log("post_to_line unexpected error: " + res.text)
+        post_to_slack("post_to_line unexpected error: " + res.text)
 
 
 def fetch_is_available_to_apply() -> bool:
-    target_url = "https://s-kantan.jp/city-gyoda-saitama-u/offer/offerDetail_initDisplay.action?tempSeq=25956&accessFrom="
-    res = requests.get(target_url)
+    res = requests.get(TARGET_URL)
     if not res.status_code == 200:
         log("Cannot to connect site: " + res.text)
-        post_to_slack("<!channel> Unexpected scraping error: " + str(e))
+        post_to_slack("Cannot to connect site: " + res.text)
         return False
 
     try:
@@ -55,6 +86,6 @@ def check(event: CloudWatchEvent):
 
     if is_available:
         # 開始前はどうでもいいので、開始した時だけ通知する
-        post_to_slack("<!channel> 予約開始かもよ")
+        post_to_line(f"予約開始かもよ: {TARGET_URL}")
     else:
-        log("It seems not yet")
+        post_to_line(f"まだだよ: {TARGET_URL}")

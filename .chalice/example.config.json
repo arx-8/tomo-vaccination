@@ -7,7 +7,9 @@
     }
   },
   "environment_variables": {
+    "LINE_CHANNEL_ACCESS_TOKEN": "TODO",
     "LINE_ROOM_ID": "TODO",
-    "LINE_CHANNEL_ACCESS_TOKEN": "TODO"
+    "SLACK_INCOMING_WEBHOOK_URL": "TODO",
+    "TARGET_URL": "TODO"
   }
 }

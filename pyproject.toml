@@ -20,9 +20,10 @@ chalice = "^1.24.2"
 
 [tool.taskipy.tasks]
 # Run local
-start = "python app.py"
+start = "chalice local"
 # Run automatically test
-test = "python -m pytest src/ -v"
+test = "python tester.py"
+# test = "python -m pytest src/ -v"
 # Output to requirements.txt
 requirements = "poetry export -f requirements.txt --output requirements.txt"
 # Deploy
