@@ -140,3 +140,5 @@ cython_debug/
 # by chalice
 .chalice/deployments/
 .chalice/venv/
+# ignore for credential variables
+.chalice/config.json

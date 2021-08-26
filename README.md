@@ -7,9 +7,11 @@
 
 ## init
 
-```
+```sh
 poetry config virtualenvs.in-project true
 poetry install
+cp .chalice/example.config.json .chalice/config.json
+# And edit .chalice/config.json for credential variables
 ```
 
 ## Scripts
