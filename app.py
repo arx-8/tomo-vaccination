@@ -53,7 +53,9 @@ def post_to_line(text: str) -> None:
 
 
 def fetch_is_available_to_apply() -> bool:
-    res = requests.get(TARGET_URL)
+    res = requests.get(TARGET_URL, {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 Edg/81.0.416.72",
+    })
     if not res.status_code == 200:
         app.log.error(f"Cannot to connect site: {res.text}")
         post_to_slack(f"Cannot to connect site: {res.text}")
