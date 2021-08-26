@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 import requests
@@ -14,14 +15,7 @@ TARGET_URL = os.environ["TARGET_URL"]
 
 # init chalice
 app = Chalice(app_name="tomo-vaccination")
-
-
-def log(text: str) -> None:
-    """
-    log for CloudWatch
-    """
-    # TODO replace Chalice.log.error()
-    print("***" + text)
+app.log.setLevel(logging.INFO)
 
 
 def post_to_slack(text: str) -> None:
@@ -32,7 +26,7 @@ def post_to_slack(text: str) -> None:
     }))
 
     if not res.status_code == 200:
-        log("post_to_slack unexpected error: " + res.text)
+        app.log.error(f"post_to_slack unexpected error: {res.text}")
 
 
 def post_to_line(text: str) -> None:
@@ -54,15 +48,15 @@ def post_to_line(text: str) -> None:
     )
 
     if not res.status_code == 200:
-        log("post_to_line unexpected error: " + res.text)
-        post_to_slack("post_to_line unexpected error: " + res.text)
+        app.log.error(f"post_to_line unexpected error: {res.text}")
+        post_to_slack(f"post_to_line unexpected error: {res.text}")
 
 
 def fetch_is_available_to_apply() -> bool:
     res = requests.get(TARGET_URL)
     if not res.status_code == 200:
-        log("Cannot to connect site: " + res.text)
-        post_to_slack("Cannot to connect site: " + res.text)
+        app.log.error(f"Cannot to connect site: {res.text}")
+        post_to_slack(f"Cannot to connect site: {res.text}")
         return False
 
     try:
@@ -75,8 +69,8 @@ def fetch_is_available_to_apply() -> bool:
         text = maybe_tag.get_text().strip()
         return not (text in "申込期間ではありません。")
     except Exception as e:
-        log("Unexpected scraping error: " + str(e))
-        post_to_slack("<!channel> Unexpected scraping error: " + str(e))
+        app.log.error(f"Unexpected scraping error: {str(e)}")
+        post_to_slack(f"<!channel> Unexpected scraping error: {str(e)}")
         return False
 
 
@@ -88,4 +82,4 @@ def check(event: CloudWatchEvent):
         # 開始前はどうでもいいので、開始した時だけ通知する
         post_to_line(f"予約開始かもよ: {TARGET_URL}")
     else:
-        post_to_line(f"まだだよ: {TARGET_URL}")
+        app.log.info("It seems not yet")
