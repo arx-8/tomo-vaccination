@@ -1,0 +1,53 @@
+@startuml
+title system diagram
+
+' https://plantuml-editor.kkeisuke.com/
+
+' @see https://github.com/awslabs/aws-icons-for-plantuml/tree/v5.0
+!includeurl https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v5.0/dist/AWSCommon.puml
+!includeurl https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v5.0/dist/Compute/Lambda.puml
+!includeurl https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v5.0/dist/GroupIcons/Cloudalt.puml
+!includeurl https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v5.0/dist/ManagementAndGovernance/CloudWatchEventTimeBased.puml
+
+' @see https://github.com/tupadr3/plantuml-icon-font-sprites/tree/v2.1.0
+!includeurl https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0/common.puml
+!includeurl https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0/devicons/python.puml
+!includeurl https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0/font-awesome-5/slack.puml
+!includeurl https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0/font-awesome-5/line.puml
+
+' @see https://github.com/Roemer/plantuml-office/tree/1.0.0
+!includeurl https://raw.githubusercontent.com/Roemer/plantuml-office/1.0.0/office2014/Clouds/cloud.puml
+!includeurl https://raw.githubusercontent.com/Roemer/plantuml-office/1.0.0/office2014/Concepts/web_page.puml
+
+' 他UMLのキーワードを使用可能にするための設定
+allow_mixing
+left to right direction
+
+' '''''''''''''''
+' Declare object
+' '''''''''''''''
+actor "Me" as user
+
+Cloudalt(aws, "AWS", "") {
+    CloudWatchEventTimeBased(aws_cw_event, "CloudWatch Event", "Execute per 5 min")
+
+    Lambda(aws_lambda, "Lambda", "") {
+        DEV_PYTHON(aws_py, "Chalice")
+    }
+}
+
+OFF_WEB_PAGE(web_page, "Booking site")
+
+FA5_SLACK(slack, "Slack")
+FA5_LINE(line, "Line (Messaging API)")
+
+' Flow
+aws_cw_event --> aws_lambda
+aws_lambda --> aws_py
+aws_py <--> web_page: Scraping
+aws_py --> line
+line --> user: Notice
+aws_py --> slack: If any error occurs, will post msg
+slack --> user: Notice
+
+@enduml
